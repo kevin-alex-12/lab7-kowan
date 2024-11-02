@@ -1,0 +1,96 @@
+<html>
+    <head>
+        <title>Lab 7 - Komputasi Awan</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+        <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+    </head>
+
+    <body>
+    
+    <!-- Name -->
+    <div class="w3-top">
+        <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+            <div class="w3-center w3-padding-16"><a href="/">Lab 7 - Komputasi Awan</a></div>
+        </div>
+    </div>
+    
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
+    
+    <!-- Nama -->
+    <div class="w3-row-padding w3-padding-20 w3-center">
+        <h2>Kevin Alexander - 2106705026</h2>
+    </div>
+
+    <!-- First Photo Grid-->
+    <div class="w3-row-padding w3-padding-16 w3-center">
+        <div class="w3-half">
+            <label for="persegi">Luas Persegi (dalam angka):</label>
+            <div class="inputwrapper">
+                <input type="text" id="persegi" placeholder="Masukkan angka (contoh: 5)" name="persegi">
+            </div>
+            <button type="button" onclick="send_persegi()">Hitung</button>
+
+            <!-- Hasil Luas Persegi -->
+            <div>
+                <h4>Hasil:</h4>
+                <p id="persegi-result">Belum ada hasil</p>
+            </div>
+        </div>
+        <div class="w3-half">
+            <label for="kubus">Luas Permukaan Kubus (dalam angka):</label>
+            <div class="inputwrapper">
+                <input type="text" id="kubus" placeholder="Masukkan angka (contoh: 5)" name="kubus">
+            </div>
+            <button type="button" onclick="send_kubus()">Hitung</button>
+
+            <!-- Hasil Luas Permukaan Kubus -->
+            <div>
+                <h4>Hasil:</h4>
+                <p id="kubus-result">Belum ada hasil</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- End page content -->
+    </div>
+
+    <script>
+        // Ganti hasil
+        function change_result(value, target) {
+            if (value == undefined) {
+                value = "Error"
+                
+            }
+            document.getElementById(target).innerText = value;
+        }
+
+        // Script to calculate
+        function send_persegi() {
+            fetch(`/send?rusuk=${parseInt(document.getElementById("persegi").value)}&jenis=persegi`, {
+                method: 'GET'
+            })
+            .then((response) => response.json())
+            .then((json) => change_result(`${json.result} satuan luas`, "persegi-result"))
+            .catch(error => {
+                change_result("Error", "persegi-result")
+            });
+        }
+
+        function send_kubus() {
+            fetch(`/send?rusuk=${parseInt(document.getElementById("kubus").value)}&jenis=kubus`, {
+                method: 'GET'
+            })
+            .then((response) => response.json())
+            .then((json) => change_result(`${json.result} satuan luas`, "kubus-result"))
+            .catch(error => {
+                change_result("Error", "kubus-result")
+            });
+        }
+    </script>
+
+    </body>
+</html>
